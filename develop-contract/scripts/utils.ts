@@ -1,10 +1,11 @@
 import { network, ethers, run } from "hardhat"
 import { networksConfig } from "../helper"
-import type { Contract } from "@ethersproject/contracts"
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers"
+import { Contract, ContractFactory } from "ethers"
 
 const networkConfigHelper = networksConfig[network.name]
 
-export async function setup() {
+export async function setup(): Promise<SignerWithAddress[]> {
   console.log("=== Setup ===")
   const signers = await ethers.getSigners()
   const deployer = signers[0]
@@ -19,19 +20,7 @@ export async function setup() {
   }
   console.log("Deployer balance:", ethers.utils.formatEther(await deployer.getBalance()).toString())
   console.log("=============\n")
-}
-
-export async function deployContract(name: string, params: any[]): Promise<Contract> {
-  console.log(`Deploying contract "${name}"...`)
-  const factory = await ethers.getContractFactory(name)
-  const contract = await factory.deploy(...params)
-  await contract.deployed()
-  await contract.deployTransaction.wait(networkConfigHelper?.confirmations || 1)
-  console.log(`Contract "${name}" deployed to ${contract.address}`)
-  if (networkConfigHelper?.verify) {
-    await verify(contract.address, params)
-  }
-  return contract
+  return signers
 }
 
 // Only for the hardhat localhost network
@@ -47,7 +36,25 @@ export async function sendValues(addresses: string[], eth: string) {
   }
 }
 
-async function verify(address: string, args: any[]) {
+type DeployType<F extends ContractFactory> = {
+  name: string
+  factory: F
+  constructorArgs: Parameters<F["deploy"]>
+}
+export async function deploy<F extends ContractFactory, C extends Contract>(
+  args: DeployType<F>
+): Promise<C> {
+  const contract = (await args.factory.deploy(...args.constructorArgs)) as C
+  await contract.deployed()
+  await contract.deployTransaction.wait(networkConfigHelper?.confirmations || 1)
+  console.log(`Contract "${args.name}" deployed to ${contract.address}`)
+  if (networkConfigHelper?.verify) {
+    await verify(contract.address, args.constructorArgs)
+  }
+  return contract
+}
+
+export async function verify<Args>(address: string, args: Args | any[]) {
   try {
     console.log("Verifying contract...")
     await run("verify:verify", {
