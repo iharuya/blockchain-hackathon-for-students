@@ -1,8 +1,8 @@
-# NFT
+# Emoji NFT
 
 React フロントエンド
 
-スマートコントラクトは Remix で書いたものを利用する
+デプロイしたスマートコントラクトの情報は`./components/constants/emojiContract.js`に貼り付ける。
 
 ## Memo
 

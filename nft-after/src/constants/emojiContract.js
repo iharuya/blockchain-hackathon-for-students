@@ -1,6 +1,15 @@
-export const ADDRESS = "0x65634fb0AD5Cd7391a188F537e13Ac19b690eb91"
+export const ADDRESS = "0xCae1013e39155f10FbcEf9eB41b8448437795370"
 export const ABI = [
-  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "alpha", type: "uint256" },
+      { internalType: "uint256", name: "beta", type: "uint256" },
+      { internalType: "uint256", name: "max_tokenId", type: "uint256" },
+      { internalType: "string", name: "baseURI_", type: "string" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
   {
     anonymous: false,
     inputs: [
@@ -115,6 +124,13 @@ export const ABI = [
     inputs: [{ internalType: "address", name: "owner", type: "address" }],
     name: "balanceOf",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "baseURI",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },

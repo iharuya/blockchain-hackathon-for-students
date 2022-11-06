@@ -11,10 +11,10 @@ async function main() {
     name,
     factory,
     constructorArgs: [
-      parseEther("0.01"),
       parseEther("0.002"),
+      parseEther("0.01"),
       9,
-      "https://example.com/metadata/json",
+      "https://iharuya.github.io/emoji-nft-metadata",
     ],
   })
 }
