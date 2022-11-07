@@ -5,15 +5,17 @@
 本リポジトリのコードとドキュメントはMITライセンスなので、ご自由にお使いください。
 
 ## 内容
-
 ### Emoji NFT Project
 
 実際にNFTを開発し、Reactを使ってそのNFTと対話できるようにします。
 
-[ワークショップはここからはじめてください](./nft-before)
+[ワークショップはここからはじめてください](./emoji-nft/before)
 
-[完成版](./nft-after)
+[完成版](./emoji-nft/after)
 
+[メタデータの生成](./emoji-nft/metadata/)
+
+このメタデータを[専用のGitHubリポジトリ](https://github.com/iharuya/emoji-nft-metadata)のgithub-pages機能を使ってホストしてします。
 ### スマートコントラクトの開発環境
 
 [Hardhat+Typescriptを利用しています](./develop-contract/)
@@ -22,4 +24,4 @@ TypesScriptが分からなくても、[README](./develop-contract/README.md)の�
 
 ### 資料
 
-[ワークショップで参照する資料](./materials/workshop/)や、[補足資料](./materials/supplement/)はここにあります
+WIP
