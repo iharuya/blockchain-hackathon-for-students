@@ -24,4 +24,6 @@ TypesScriptが分からなくても、[README](./develop-contract/README.md)の�
 
 ### 資料
 
-WIP
+#### NFTを実装してみよう
+
+[ワークショップではこちらを参照してください](./materials/EIP-721s.md)
