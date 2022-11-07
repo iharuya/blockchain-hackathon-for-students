@@ -4,7 +4,7 @@
 
 NFTをしっかりと理解するために、ERC721の簡略化バージョンをもとに実装してみよう。
 
-[実装と利用はこちら](../../develop-contract/contracts/ERC721s.sol)
+[実装と利用はこちら](../develop-contract/contracts/ERC721s.sol)
 
 ## 仕様
 
