@@ -23,13 +23,19 @@ const config: HardhatUserConfig = {
       },
     },
     goerli: {
-      url: process.env.GOERLI_RPC_URL || "",
+      url: process.env.RPC_URL_GOERLI || "",
       accounts: {
         mnemonic: process.env.DEV_MNEMONIC || "",
       },
     },
     mumbai: {
-      url: process.env.MUMBAI_RPC_URL || "",
+      url: process.env.RPC_URL_MUMBAI || "",
+      accounts: {
+        mnemonic: process.env.DEV_MNEMONIC || "",
+      },
+    },
+    og: {
+      url: process.env.RPC_URL_OG || "",
       accounts: {
         mnemonic: process.env.DEV_MNEMONIC || "",
       },
@@ -37,8 +43,9 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      goerli: process.env.ETHERSCAN_APIKEY || "",
-      polygonMumbai: process.env.POLYGONSCAN_APIKEY || "",
+      goerli: process.env.EXPLORER_KEY_GOERLI || "",
+      polygonMumbai: process.env.EXPLORER_KEY_MUMBAI || "",
+      optimisticGoerli: process.env.EXPLORER_KEY_OG || "",
     },
   },
 }

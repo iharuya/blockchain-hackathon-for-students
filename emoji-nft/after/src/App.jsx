@@ -5,7 +5,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 import { Layout } from "./Layout"
 const { chains, provider } = configureChains(
-  [chain.polygonMumbai],
+  [chain.optimismGoerli],
   [
     alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_APIKEY }),
     publicProvider(),

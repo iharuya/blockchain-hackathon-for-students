@@ -8,9 +8,8 @@
 ## `.env`について
 
 - `DEV_MNEMONIC`: 開発用ウォレットのニーモニックフレーズ。必ず必要です
-- `MUMBAI_RPC_URL`: mumbai チェーンに書き込み（コントラクトのデプロイなど）をする場合は必要です。alchemy などから取得してください。
-- `POLYGONSCAN_APIKEY`: これがあると、mumbai チェーンにデプロイするときは自動で polygonscan にソースコードを verify します
-- `GOERLI_RPCURL`と`ETHERSCAN_APIKEY`: mumbai チェーンのときと同様に、goerli チェーンに対応します
+- `RPC_URL_[chain name]`: コントラクトのデプロイなどをする場合は必要です。alchemy などから取得してください。
+- `EXPLORER_KEY_[chain name]`: バイトコードをデプロイした後、自動でエクスプローラーでソースコードを verify します
 
 ## 例
 
@@ -21,7 +20,7 @@
   1. `yarn typechain`でコントラクトの Typescript の型を生成する
   1. `yarn execute scripts/sample.ts --network localhost`でローカルのブロックチェーンを使って`sample.ts`を実行する
 
-- Emoji コントラクトを mumbai チェーンにデプロイし、verify する
+- Emoji コントラクトを optimism goerli チェーンにデプロイし、verify する
   1. (`.envの設定が必要です`)
   1. `yarn compile`
-  1. `yarn execute scripts/deploy-emoji.ts --network mumbai`
+  1. `yarn execute scripts/deploy-emoji.ts --network og`
