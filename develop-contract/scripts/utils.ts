@@ -5,21 +5,24 @@ import { Contract, ContractFactory } from "ethers"
 
 const networkConfigHelper = networksConfig[network.name]
 
-export async function setup(): Promise<SignerWithAddress[]> {
-  console.log("=== Setup ===")
+export async function setup(isTesting = false): Promise<SignerWithAddress[]> {
+  !isTesting && console.log("=== Setup ===")
   const signers = await ethers.getSigners()
   const deployer = signers[0]
-  console.log("Network:", network.name)
-  console.log("Deployer:", deployer.address)
+  !isTesting && console.log("Network:", network.name)
+  !isTesting && console.log("Deployer:", deployer.address)
   if (network.name === "localhost") {
     await sendValues(
       signers.map((signer) => signer.address),
       "1"
     )
-    console.log("Sent signers 1 eth respectively")
+    !isTesting && console.log("Sent signers 1 eth respectively")
   }
-  console.log("Deployer balance:", ethers.utils.formatEther(await deployer.getBalance()).toString())
-  console.log("=============\n")
+  !isTesting &&
+    console.log(
+      `Deployer balance:${ethers.utils.formatEther(await deployer.getBalance()).toString()}`,
+      `\n=============\n`
+    )
   return signers
 }
 
@@ -36,20 +39,24 @@ export async function sendValues(addresses: string[], eth: string) {
   }
 }
 
+// factoryを指定するとconstructorの型チェックをする
 type DeployType<F extends ContractFactory> = {
   name: string
-  factory: F
-  constructorArgs: Parameters<F["deploy"]>
+  factory?: F
+  constructorArgs?: Parameters<F["deploy"]> | any[]
+  isTesting?: boolean
 }
 export async function deploy<F extends ContractFactory, C extends Contract>(
   args: DeployType<F>
 ): Promise<C> {
-  const contract = (await args.factory.deploy(...args.constructorArgs)) as C
+  !args.isTesting && console.log(`Deploying contract ${args.name}...`)
+  const factory = args.factory || (await ethers.getContractFactory(args.name))
+  const contract = (await factory.deploy(...(args.constructorArgs || []))) as C
   await contract.deployed()
   await contract.deployTransaction.wait(networkConfigHelper?.confirmations || 1)
-  console.log(`Contract "${args.name}" deployed to ${contract.address}`)
-  if (networkConfigHelper?.verify) {
-    await verify(contract.address, args.constructorArgs)
+  !args.isTesting && console.log(`Contract "${args.name}" deployed to ${contract.address}`)
+  if (networkConfigHelper?.verify && !args.isTesting) {
+    await verify(contract.address, args.constructorArgs || [])
   }
   return contract
 }

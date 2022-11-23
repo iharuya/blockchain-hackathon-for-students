@@ -4,9 +4,9 @@ import { ethers } from "hardhat"
 import { Emoji } from "../typechain-types"
 
 async function main() {
-  const signers = await setup()
+  await setup()
   const name = "Emoji"
-  const factory = await ethers.getContractFactory(name, signers[0])
+  const factory = await ethers.getContractFactory(name)
   await deploy<typeof factory, Emoji>({
     name,
     factory,

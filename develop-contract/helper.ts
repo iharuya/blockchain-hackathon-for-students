@@ -19,4 +19,8 @@ export const networksConfig: NetworksConfig = {
     confirmations: 6,
     verify: process.env.EXPLORER_KEY_OG ? true : false,
   },
+  ag: {
+    confirmations: 6,
+    verify: process.env.EXPLORER_KEY_AG ? true : false,
+  },
 }

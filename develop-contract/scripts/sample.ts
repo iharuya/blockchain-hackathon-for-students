@@ -4,9 +4,9 @@ import { ethers } from "hardhat"
 
 // Sample.solコントラクトをデプロイし、初期値の変更を確認するスクリプト
 async function main() {
-  const signers = await setup()
+  await setup()
   const name = "Sample"
-  const factory = await ethers.getContractFactory(name, signers[0])
+  const factory = await ethers.getContractFactory(name)
   const contract = await deploy<typeof factory, Sample>({
     name,
     factory,
