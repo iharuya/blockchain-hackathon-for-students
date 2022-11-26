@@ -13,14 +13,19 @@
 
 ## 例
 
-- Sample コントラクトをローカル環境にデプロイし、そのままコントラクトとスクリプトでやり取りする
-
+- Sample.sol
   1. `yarn dev`でローカルのブロックチェーンを起動
   1. `yarn compile`でコントラクトをコンパイルする
   1. `yarn typechain`でコントラクトの Typescript の型を生成する
-  1. `yarn execute scripts/sample.ts --network localhost`でローカルのブロックチェーンを使って`sample.ts`を実行する
+  1. `yarn run:localhost scripts/sample.ts`でローカルのブロックチェーンを使って`sample.ts`を実行する（->コントラクトがしっかりと動作することを目視で確認）
+  1. `yarn test tests/Sample.ts`テストを実行
 
 - Emoji コントラクトを optimism goerli チェーンにデプロイし、verify する
   1. (`.envの設定が必要です`)
   1. `yarn compile`
-  1. `yarn execute scripts/deploy-emoji.ts --network og`
+  1. `yarn run:og scripts/deploy-emoji.ts`
+
+## トラブルシューティング
+
+- `yarn clean`
+- エディターやts serverの再起動
