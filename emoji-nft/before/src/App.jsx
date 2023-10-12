@@ -11,14 +11,37 @@ https://www.rainbowkit.com/docs/installation
 viteで環境変数をインポートするときは`import.meta.env.[名前]`とします
 */
 
+import "@rainbow-me/rainbowkit/styles.css"
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit"
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi"
+import { alchemyProvider } from "wagmi/providers/alchemy"
+import { publicProvider } from "wagmi/providers/public"
+
+const { chains, provider } = configureChains(
+  [chain.optimismGoerli],
+  [
+    alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_APIKEY }),
+    publicProvider(),
+  ]
+)
+const { connectors } = getDefaultWallets({
+  appName: "My RainbowKit App",
+  chains,
+})
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+})
 import { Layout } from "./Layout"
 
 const App = () => {
   return (
-    // WagmiConfigとRainbowKitProviderをセットします
-    <Layout />
-    // こうすることで内側にあるコンポーネント(<Layout />)で
-    // wagmiとrainbowkitのhook（拡張機能）を使うことができます
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <Layout />
+      </RainbowKitProvider>
+    </WagmiConfig>
   )
 }
 

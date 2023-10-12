@@ -1,3 +1,5 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+
 export const Header = () => {
   return (
     <header className="bg-amber-500 text-white flex mb-4">
@@ -6,8 +8,7 @@ export const Header = () => {
         <span className="text-xl font-bold">Emoji NFT</span>
       </div>
       <div className="ml-auto inline-flex items-center pr-4">
-        {/* Todo: RainbowKitのウォレット接続ボタンに置き換えよう */}
-        <span>ボタン</span>
+        <ConnectButton />
       </div>
     </header>
   )

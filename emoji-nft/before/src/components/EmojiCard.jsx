@@ -11,7 +11,8 @@ export const EmojiCard = ({ contract, tokenId }) => {
 
   const getMetadata = async () => {
     // @todo: コントラクトからtokenIdのURIを取得しよう
-    const url = undefined
+    const url = await contract.tokenURI(tokenId)
+    console.log(url)
     const res = await fetch(url)
     const json = await res.json()
     setMetadata(json)

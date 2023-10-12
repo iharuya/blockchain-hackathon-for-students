@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react"
 import { OPENSEA_COLLECTION_URL } from "../constants/config"
 import { ContractStatus } from "./ContractStatus"
+import { useProvider } from 'wagmi'
+import { useContract } from 'wagmi'
+import { ABI, ADDRESS } from "../constants/emojiContract"
+import { MintEmoji } from "./MintEmoji"
+import { EmojiCard} from "./EmojiCard"
 
 export const Main = () => {
   // @todo: wagmiのhookを使ってEmojiコントラクトをインスタンス化しよう
-  const provider = undefined
-  const contract = undefined
+  const provider = useProvider()
+  const contract = useContract({
+    address: ADDRESS,
+    abi: ABI,
+    signerOrProvider: provider
+  })
 
   const [contractStatus, setContractStatus] = useState()
 
@@ -17,7 +26,7 @@ export const Main = () => {
   const updateContractStatus = async () => {
     // @todo: 現在のmintPriceをブロックチェーンから読み取ろう
     // スマコンの整数の戻り値はethersjsで扱うときBigNumberオブジェクトになって返ってきます
-    const mintPrice = undefined
+    const mintPrice = await contract.getMintPrice()
     const currentSupply = (await contract.nextTokenId()).toNumber()
     const maxSupply = (await contract.MAX_TOKENID()).toNumber() + 1
     setContractStatus({
@@ -44,12 +53,11 @@ export const Main = () => {
         <div>
           <ContractStatus status={contractStatus} />
 
-          {/* todo 1: MintEmojiコンポーネントを使ってNFTをミントできるようにしよう */}
-          {/* また、ミントされたら、updateContractStatusを実行するようにしよう */}
-
+          <MintEmoji status={contractStatus} contract={contract} handleMint={updateContractStatus} />
+          
           <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {/* todo 2: EmojiCardコンポーネントを使ってミントされたそれぞれのNFTを表示してみよう */}
             {/* ヒント: react map, currentSupply, [...Array(n).keys()] */}
+            {[...Array(contractStatus.currentSupply).keys()].map((tokenId) => (<EmojiCard key={tokenId} contract={contract} tokenId={tokenId} />))}
           </div>
         </div>
       )}

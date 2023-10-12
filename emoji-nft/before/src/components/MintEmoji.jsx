@@ -1,4 +1,5 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { formatEther } from "ethers/lib/utils"
 import { useState } from "react"
 import { useSigner } from "wagmi"
 
@@ -13,12 +14,11 @@ export const MintEmoji = ({ status, contract, handleMint }) => {
     // propsのcontractはproviderに接続しています
     // ブロックチェーンにデータを書き込む(=Txを送る)には
     // 接続しているsignerに接続する必要があります
-    const writableContract = undefined
-
+    const writableContract = contract.connect(signer)
     setIsMinting(true)
     try {
       // Todo: 適切な価格を支払ってmintしよう
-      const tx = undefined
+      const tx = await writableContract.mint({value: status.mintPrice})
       await tx.wait() // TXの入ったブロックが過去のものとなるまで待つ
       handleMint() // 親コンポーネントにmintされたことを伝える
     } catch (err) {
@@ -52,7 +52,7 @@ export const MintEmoji = ({ status, contract, handleMint }) => {
       onClick={mint}
       disabled={isMinting}
     >
-      Emojiをミント（）
+      Emojiをミント（{formatEther(status.mintPrice)} ETH）
     </button>
   )
 }
